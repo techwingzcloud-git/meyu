@@ -1,18 +1,30 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Search, X, ArrowRight } from "lucide-react";
-import { useShop } from "@/lib/shop-context";
-import { findProducts } from "@/lib/catalog";
+import { useShop } from "@/lib/use-shop";
+import { getProduct } from "@/lib/catalog";
 import { Link, useNavigate } from "@tanstack/react-router";
 
 const SUGGESTIONS = ["Saree", "Lehenga", "Dress", "Shirt", "Jeans", "Hoodie", "Kurti", "Jacket"];
 
+type SearchResult = {
+  id: string;
+  name: string;
+  brand: string;
+  category: string;
+  price: number;
+};
+
 export function SearchOverlay() {
   const { searchOpen, setSearchOpen } = useShop();
   const [q, setQ] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!searchOpen) setQ("");
+    if (!searchOpen) {
+      setQ("");
+      setResults([]);
+    }
   }, [searchOpen]);
 
   useEffect(() => {
@@ -23,9 +35,32 @@ export function SearchOverlay() {
     return () => window.removeEventListener("keydown", onKey);
   }, [searchOpen, setSearchOpen]);
 
-  const results = useMemo(() => {
-    if (!q.trim()) return [];
-    return findProducts({ q }).slice(0, 8);
+  useEffect(() => {
+    if (!q.trim()) {
+      setResults([]);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const run = async () => {
+      try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(q)}&sort=popularity`, {
+          credentials: "include",
+          signal: controller.signal,
+        });
+        const data = (await response.json()) as { results?: SearchResult[] };
+        setResults((data.results ?? []).slice(0, 8));
+      } catch (error) {
+        if ((error as Error).name !== "AbortError") {
+          console.error(error);
+        }
+      }
+    };
+
+    void run();
+
+    return () => controller.abort();
   }, [q]);
 
   if (!searchOpen) return null;
@@ -89,31 +124,36 @@ export function SearchOverlay() {
             </div>
           ) : (
             <ul className="space-y-2">
-              {results.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    to="/products"
-                    search={{ q }}
-                    onClick={() => setSearchOpen(false)}
-                    className="flex items-center gap-3 rounded-lg border border-transparent p-2 transition-colors hover:border-[var(--gold)]/30 hover:bg-black/40"
-                  >
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="h-14 w-12 rounded object-cover"
-                    />
-                    <div className="flex-1">
-                      <div className="text-[10px] uppercase tracking-[0.2em] text-white/50">
-                        {p.brand} · {p.category}
+              {results.map((p) => {
+                const product = getProduct(p.id);
+                if (!product) return null;
+
+                return (
+                  <li key={p.id}>
+                    <Link
+                      to="/product/$productId"
+                      params={{ productId: p.id }}
+                      onClick={() => setSearchOpen(false)}
+                      className="flex items-center gap-3 rounded-lg border border-transparent p-2 transition-colors hover:border-[var(--gold)]/30 hover:bg-black/40"
+                    >
+                      <img
+                        src={product.image}
+                        alt={p.name}
+                        className="h-14 w-12 rounded object-cover"
+                      />
+                      <div className="flex-1">
+                        <div className="text-[10px] uppercase tracking-[0.2em] text-white/50">
+                          {p.brand} · {p.category}
+                        </div>
+                        <div className="text-sm text-white">{p.name}</div>
                       </div>
-                      <div className="text-sm text-white">{p.name}</div>
-                    </div>
-                    <div className="text-sm text-[var(--gold)]">
-                      ₹{p.price.toLocaleString("en-IN")}
-                    </div>
-                  </Link>
-                </li>
-              ))}
+                      <div className="text-sm text-[var(--gold)]">
+                        ₹{p.price.toLocaleString("en-IN")}
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
               <li>
                 <button
                   onClick={submit}

@@ -1,4 +1,4 @@
-import { useShop } from "@/lib/shop-context";
+import { useShop } from "@/lib/use-shop";
 import { products } from "@/lib/catalog";
 import { X, Heart, ShoppingBag } from "lucide-react";
 import { Link } from "@tanstack/react-router";

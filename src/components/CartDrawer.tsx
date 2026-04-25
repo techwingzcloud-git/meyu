@@ -1,9 +1,19 @@
-import { useShop } from "@/lib/shop-context";
+import { useShop } from "@/lib/use-shop";
 import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 
 export function CartDrawer() {
-  const { cart, cartOpen, setCartOpen, updateQty, removeFromCart, cartTotal } = useShop();
+  const navigate = useNavigate();
+  const {
+    cart,
+    cartOpen,
+    setCartOpen,
+    updateQty,
+    removeFromCart,
+    cartTotal,
+    user,
+    beginCheckoutFromCart,
+  } = useShop();
 
   if (!cartOpen) return null;
 
@@ -113,7 +123,15 @@ export function CartDrawer() {
             </div>
             <Link
               to="/checkout"
-              onClick={() => setCartOpen(false)}
+              onClick={(event) => {
+                setCartOpen(false);
+                if (!user) {
+                  event.preventDefault();
+                  navigate({ to: "/auth", search: { redirect: "/cart" } });
+                  return;
+                }
+                beginCheckoutFromCart();
+              }}
               className="block w-full rounded-full bg-[var(--gold)] py-3 text-center text-xs font-medium uppercase tracking-[0.3em] text-black transition-all hover:shadow-[0_8px_30px_-8px_var(--gold)]"
             >
               Checkout →

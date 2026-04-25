@@ -1,6 +1,6 @@
 import { Heart, ShoppingBag } from "lucide-react";
 import { products } from "@/lib/catalog";
-import { useShop } from "@/lib/shop-context";
+import { useShop } from "@/lib/use-shop";
 import { Link } from "@tanstack/react-router";
 
 export function ProductGrid() {
@@ -32,8 +32,8 @@ export function ProductGrid() {
                 className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-500 hover:border-gold/60 hover:shadow-[var(--shadow-elegant)]"
               >
                 <Link
-                  to="/products"
-                  search={{ gender: p.gender, category: p.category }}
+                  to="/product/$productId"
+                  params={{ productId: p.id }}
                   className="relative block aspect-[3/4] overflow-hidden"
                 >
                   <img
@@ -83,6 +83,13 @@ export function ProductGrid() {
                   >
                     <ShoppingBag className="h-3 w-3" /> Add to Cart
                   </button>
+                  <Link
+                    to="/product/$productId"
+                    params={{ productId: p.id }}
+                    className="mt-2 block text-center text-[10px] uppercase tracking-[0.25em] text-foreground/60 transition-colors hover:text-primary"
+                  >
+                    View Details
+                  </Link>
                 </div>
               </article>
             );

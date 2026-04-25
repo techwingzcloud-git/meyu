@@ -42,24 +42,49 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes mega-in {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 :root {
@@ -75,7 +100,7 @@
   --popover: oklch(0.13 0.006 60);
   --popover-foreground: oklch(0.96 0.01 80);
 
-  --primary: oklch(0.82 0.14 85);            /* gold */
+  --primary: oklch(0.82 0.14 85); /* gold */
   --primary-foreground: oklch(0.12 0.005 60);
 
   --secondary: oklch(0.18 0.008 60);
@@ -98,7 +123,12 @@
   --gold-soft: oklch(0.88 0.1 88);
   --gold-deep: oklch(0.62 0.13 75);
 
-  --gradient-gold: linear-gradient(135deg, oklch(0.88 0.1 88), oklch(0.72 0.15 75), oklch(0.88 0.1 88));
+  --gradient-gold: linear-gradient(
+    135deg,
+    oklch(0.88 0.1 88),
+    oklch(0.72 0.15 75),
+    oklch(0.88 0.1 88)
+  );
   --gradient-dark: linear-gradient(180deg, oklch(0.12 0.005 60), oklch(0.08 0.005 60));
   --shadow-gold: 0 10px 40px -10px oklch(0.82 0.14 85 / 0.45);
   --shadow-elegant: 0 20px 60px -20px oklch(0 0 0 / 0.7);
@@ -111,15 +141,25 @@
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
 }
 
 @utility text-gold {

@@ -4,15 +4,13 @@ import { Sparkles, Send, Minus } from "lucide-react";
 type Msg = { role: "user" | "ai"; text: string };
 
 const seed: Msg[] = [
-  { role: "ai", text: "Hi, I'm your MEYU assistant ✨\n\nTry: \"Men black shirt under ₹1500\" or \"Women party dress in Chennai\"." },
+  {
+    role: "ai",
+    text: 'Hi, I\'m your MEYU assistant ✨\n\nTry: "Men black shirt under ₹1500" or "Women party dress in Chennai".',
+  },
 ];
 
-const quickActions = [
-  "Trending now",
-  "Party wear",
-  "Under ₹2000",
-  "Festive picks",
-];
+const quickActions = ["Trending now", "Party wear", "Under ₹2000", "Festive picks"];
 
 export function AIChat() {
   const [open, setOpen] = useState(false);
@@ -30,7 +28,10 @@ export function AIChat() {
     setMsgs((m) => [
       ...m,
       { role: "user", text: q },
-      { role: "ai", text: `Curating picks for "${q}" — here are 4 styles matched to your taste ✨` },
+      {
+        role: "ai",
+        text: `Curating picks for "${q}" — here are 4 styles matched to your taste ✨`,
+      },
     ]);
     setInput("");
   };

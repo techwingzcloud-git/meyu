@@ -6,6 +6,7 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { WishlistDrawer } from "@/components/WishlistDrawer";
 import { SearchOverlay } from "@/components/SearchOverlay";
 import { Toaster } from "@/components/ui/sonner";
+import { LoginPopup } from "@/components/LoginPopup";
 
 function NotFoundComponent() {
   return (
@@ -72,6 +73,7 @@ function RootComponent() {
       <CartDrawer />
       <WishlistDrawer />
       <SearchOverlay />
+      <LoginPopup />
       <Toaster />
     </ShopProvider>
   );

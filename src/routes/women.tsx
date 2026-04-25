@@ -37,9 +37,16 @@ export const Route = createFileRoute("/women")({
   head: () => ({
     meta: [
       { title: "Shop Women — MEYU" },
-      { name: "description", content: "Shop women's dresses, ethnic, bottom wear & outerwear. Vibrant luxury fashion curated by MEYU." },
+      {
+        name: "description",
+        content:
+          "Shop women's dresses, ethnic, bottom wear & outerwear. Vibrant luxury fashion curated by MEYU.",
+      },
       { property: "og:title", content: "Shop Women — MEYU" },
-      { property: "og:description", content: "Vibrant luxury fashion for women — ethnic, dresses, bottom wear & outerwear." },
+      {
+        property: "og:description",
+        content: "Vibrant luxury fashion for women — ethnic, dresses, bottom wear & outerwear.",
+      },
     ],
   }),
   component: WomenPage,
@@ -50,6 +57,7 @@ function WomenPage() {
     <div className="min-h-screen">
       <Navbar />
       <CategoryPage
+        gender="women"
         pageTitle="Shop Women"
         breadcrumb="Women"
         pageKicker="Women · Premium Edit"

@@ -23,13 +23,14 @@ export function SplashScreen() {
       }`}
       aria-hidden={hide}
     >
-      <div className="flex flex-col items-center gap-4" style={{ animation: "fade-in 0.8s ease-out" }}>
-        <img
-          src={meyuLogo}
-          alt="MEYU"
-          className="h-20 w-auto drop-shadow-[0_0_24px_var(--gold)]"
-        />
-        <div className="text-[10px] uppercase tracking-[0.5em] text-primary">Luxury · AI · Fashion</div>
+      <div
+        className="flex flex-col items-center gap-4"
+        style={{ animation: "fade-in 0.8s ease-out" }}
+      >
+        <img src={meyuLogo} alt="MEYU" className="h-20 w-auto drop-shadow-[0_0_24px_var(--gold)]" />
+        <div className="text-[10px] uppercase tracking-[0.5em] text-primary">
+          Luxury · AI · Fashion
+        </div>
       </div>
     </div>
   );

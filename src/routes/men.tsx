@@ -36,9 +36,16 @@ export const Route = createFileRoute("/men")({
   head: () => ({
     meta: [
       { title: "Shop Men — MEYU" },
-      { name: "description", content: "Shop men's shirts, t-shirts, ethnic, bottom wear & outerwear. Modern luxury edits by MEYU." },
+      {
+        name: "description",
+        content:
+          "Shop men's shirts, t-shirts, ethnic, bottom wear & outerwear. Modern luxury edits by MEYU.",
+      },
       { property: "og:title", content: "Shop Men — MEYU" },
-      { property: "og:description", content: "Modern luxury edits — shirts, tees, ethnic & outerwear for men." },
+      {
+        property: "og:description",
+        content: "Modern luxury edits — shirts, tees, ethnic & outerwear for men.",
+      },
     ],
   }),
   component: MenPage,
@@ -49,6 +56,7 @@ function MenPage() {
     <div className="min-h-screen">
       <Navbar />
       <CategoryPage
+        gender="men"
         pageTitle="Shop Men"
         breadcrumb="Men"
         pageKicker="Men · Tailored Edit"

@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { useRef } from "react";
 
-
 export type CategoryItem = {
   name: string;
   image: string;
@@ -32,6 +31,18 @@ type Props = {
   sections: CategorySection[];
   fabrics?: FabricItem[];
 };
+
+function toCategorySearch(gender: "women" | "men", name: string) {
+  const broadCategories = new Set([
+    "Shop All",
+    "Shirts",
+    "T-Shirts",
+    "Ethnic Wear",
+    "Bottom Wear",
+    "Outerwear",
+  ]);
+  return broadCategories.has(name) ? { gender } : { gender, category: name };
+}
 
 export function CategoryPage({
   pageTitle,
@@ -128,10 +139,9 @@ export function CategoryPage({
   );
 }
 
-
 /* ------------ Circle scrollers ------------ */
 
-function CircleScroller({ items }: { items: CategoryItem[] }) {
+function CircleScroller({ items, gender }: { items: CategoryItem[]; gender: "women" | "men" }) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const scrollBy = (dir: 1 | -1) => {
     scrollerRef.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
@@ -150,7 +160,7 @@ function CircleScroller({ items }: { items: CategoryItem[] }) {
         className="flex justify-start gap-8 overflow-x-auto px-2 pb-6 [scrollbar-width:none] md:justify-center [&::-webkit-scrollbar]:hidden"
       >
         {items.map((c, i) => (
-          <CircleCategory key={c.name} item={c} index={i} />
+          <CircleCategory key={c.name} item={c} index={i} gender={gender} />
         ))}
       </div>
       <button
@@ -190,9 +200,19 @@ function FabricScroller({ items }: { items: FabricItem[] }) {
   );
 }
 
-function CircleCategory({ item, index }: { item: CategoryItem; index: number }) {
+function CircleCategory({
+  item,
+  index,
+  gender,
+}: {
+  item: CategoryItem;
+  index: number;
+  gender: "women" | "men";
+}) {
   return (
-    <button
+    <Link
+      to="/products"
+      search={toCategorySearch(gender, item.name)}
       className="group flex shrink-0 flex-col items-center gap-3 opacity-0"
       style={{
         animation: `fade-in 0.5s ease-out ${0.05 * index + 0.1}s forwards`,
@@ -214,7 +234,7 @@ function CircleCategory({ item, index }: { item: CategoryItem; index: number }) 
       <span className="text-[11px] uppercase tracking-[0.25em] text-white/85 transition-colors group-hover:text-[var(--gold)]">
         {item.name}
       </span>
-    </button>
+    </Link>
   );
 }
 
@@ -246,9 +266,19 @@ function FabricCircle({ item, index }: { item: FabricItem; index: number }) {
 
 /* ------------ Featured & Section cards ------------ */
 
-function FeaturedCard({ item, index }: { item: CategoryItem; index: number }) {
+function FeaturedCard({
+  item,
+  index,
+  gender,
+}: {
+  item: CategoryItem;
+  index: number;
+  gender: "women" | "men";
+}) {
   return (
-    <button
+    <Link
+      to="/products"
+      search={toCategorySearch(gender, item.name)}
       className="group relative overflow-hidden rounded-3xl p-[1.5px] opacity-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_50px_-15px_var(--gold)]"
       style={{ animation: `fade-in 0.6s ease-out ${0.08 * index + 0.1}s forwards` }}
     >
@@ -286,11 +316,19 @@ function FeaturedCard({ item, index }: { item: CategoryItem; index: number }) {
           </div>
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
 
-function SectionGrid({ section, sectionIndex }: { section: CategorySection; sectionIndex: number }) {
+function SectionGrid({
+  section,
+  sectionIndex,
+  gender,
+}: {
+  section: CategorySection;
+  sectionIndex: number;
+  gender: "women" | "men";
+}) {
   const cols = section.cols ?? 5;
   const gridClass =
     cols === 2
@@ -310,22 +348,36 @@ function SectionGrid({ section, sectionIndex }: { section: CategorySection; sect
         <h3 className="font-display text-2xl uppercase tracking-[0.15em] text-[var(--gold)] md:text-3xl">
           {section.title}
         </h3>
-        <button className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.25em] text-[var(--gold)] transition-colors hover:text-white">
+        <Link
+          to="/products"
+          search={{ gender }}
+          className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.25em] text-[var(--gold)] transition-colors hover:text-white"
+        >
           View All <ArrowRight className="h-3 w-3" />
-        </button>
+        </Link>
       </div>
       <div className={`grid gap-4 md:gap-6 ${gridClass}`}>
         {section.items.map((it, i) => (
-          <SectionCard key={it.name} item={it} index={i} />
+          <SectionCard key={it.name} item={it} index={i} gender={gender} />
         ))}
       </div>
     </section>
   );
 }
 
-function SectionCard({ item, index }: { item: CategoryItem; index: number }) {
+function SectionCard({
+  item,
+  index,
+  gender,
+}: {
+  item: CategoryItem;
+  index: number;
+  gender: "women" | "men";
+}) {
   return (
-    <div
+    <Link
+      to="/products"
+      search={toCategorySearch(gender, item.name)}
       className="group relative cursor-pointer overflow-hidden rounded-2xl border border-[var(--gold)]/40 bg-[oklch(0.13_0.008_60)] opacity-0 shadow-[0_10px_30px_-15px_oklch(0.05_0_0/0.6)] transition-all duration-500 hover:-translate-y-1 hover:border-[var(--gold)] hover:shadow-[0_20px_45px_-15px_var(--gold)]"
       style={{ animation: `fade-in 0.5s ease-out ${0.06 * index}s forwards` }}
     >
@@ -356,6 +408,6 @@ function SectionCard({ item, index }: { item: CategoryItem; index: number }) {
           </span>
         )}
       </div>
-    </div>
+    </Link>
   );
 }
