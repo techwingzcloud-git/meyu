@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* MEYU — Premium Black & Gold Design System
+   All colors MUST be HSL. */
+
+@layer base {
+  :root {
+    /* Core surfaces */
+    --background: 0 0% 4%;            /* #0B0B0B deep black */
+    --foreground: 45 25% 96%;         /* warm cream */
+
+    --card: 0 0% 7%;
+    --card-foreground: 45 25% 96%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 45 25% 96%;
+
+    /* Gold = primary */
+    --primary: 46 65% 52%;            /* #D4AF37 */
+    --primary-foreground: 0 0% 5%;
+    --primary-glow: 51 100% 50%;      /* #FFD700 */
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 45 25% 96%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 45 10% 65%;
+
+    --accent: 60 56% 91%;             /* warm beige #F5F5DC */
+    --accent-foreground: 0 0% 5%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 46 30% 18%;
+    --input: 0 0% 14%;
+    --ring: 46 65% 52%;
+
+    --radius: 0.5rem;
+
+    /* Brand gradients & shadows */
+    --gradient-gold: linear-gradient(135deg, hsl(46 65% 52%) 0%, hsl(51 100% 60%) 50%, hsl(46 65% 52%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 0% / 0) 0%, hsl(0 0% 0% / 0.85) 100%);
+    --gradient-radial-gold: radial-gradient(circle at 50% 0%, hsl(46 65% 52% / 0.15), transparent 70%);
+
+    --shadow-gold: 0 8px 32px -8px hsl(46 65% 52% / 0.45);
+    --shadow-gold-strong: 0 0 40px hsl(51 100% 60% / 0.55);
+    --shadow-elegant: 0 20px 60px -20px hsl(0 0% 0% / 0.7);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* sidebar (unused but kept) */
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 45 15% 85%;
+    --sidebar-primary: 46 65% 52%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 45 15% 85%;
+    --sidebar-border: 46 30% 18%;
+    --sidebar-ring: 46 65% 52%;
+  }
+
+  /* MEYU is dark by design — keep .dark identical */
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 45 25% 96%;
+    --card: 0 0% 7%;
+    --card-foreground: 45 25% 96%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 45 25% 96%;
+    --primary: 46 65% 52%;
+    --primary-foreground: 0 0% 5%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 45 25% 96%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 45 10% 65%;
+    --accent: 60 56% 91%;
+    --accent-foreground: 0 0% 5%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 46 30% 18%;
+    --input: 0 0% 14%;
+    --ring: 46 65% 52%;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1, h2, h3, h4, h5, .font-display {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: -0.01em;
+  }
+  .font-cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.18em; }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, hsl(var(--primary)), hsl(var(--primary)/0.5));
+    border-radius: 4px;
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer components {
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-gold-gradient { background: var(--gradient-gold); }
+
+  .border-gold {
+    border: 1px solid hsl(var(--primary) / 0.5);
+  }
+
+  .glow-gold {
+    box-shadow: var(--shadow-gold);
+  }
+  .glow-gold:hover { box-shadow: var(--shadow-gold-strong); }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--primary)/0.6), transparent);
+  }
+
+  .product-card-hover img {
+    transition: transform 0.7s var(--transition-smooth);
+  }
+  .product-card-hover:hover img {
+    transform: scale(1.07);
+  }
+
+  .nav-link {
+    @apply relative text-sm tracking-wide uppercase text-foreground/80 transition-colors hover:text-primary;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.12em;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 1px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s var(--transition-smooth);
+  }
+  .nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+}
